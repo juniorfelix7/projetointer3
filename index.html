@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protótipo - Projeto Lumina</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .view {
+            display: none;
+        }
+        .view.active {
+            display: block;
+        }
+        .nav-item.active {
+            background-color: #eef2ff;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .step-item.active {
+            background-color: #eef2ff;
+            border-left-color: #4f46e5;
+        }
+        .mission-content {
+            display: none;
+        }
+        .mission-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex h-screen bg-gray-100">
+        <!-- Barra de Navegação Lateral -->
+        <aside class="w-64 bg-white shadow-md flex flex-col">
+            <div class="p-6 border-b">
+                <h1 class="text-2xl font-bold text-indigo-600">Lumina</h1>
+                <p class="text-sm text-gray-500">Iluminando o aprendizado</p>
+            </div>
+            <nav class="flex-1 px-4 py-4 space-y-2">
+                <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Aluno</h3>
+                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="aluno-dashboard">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    Painel Principal
+                </a>
+                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="aluno-missoes">
+                     <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 16.382V5.618a1 1 0 00-1.447-.894L15 7m-6 13v-3m6 3v-3m0 0V7"/></svg>
+                    Mapa de Missões
+                </a>
+
+                <div class="pt-4">
+                    <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Professor</h3>
+                    <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="prof-dashboard">
+                        <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        Painel do Mestre
+                    </a>
+                    <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="prof-heatmap">
+                        <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                        Análise da Turma
+                    </a>
+                </div>
+            </nav>
+            <div class="p-4 border-t mt-auto">
+                <div class="flex items-center">
+                    <img class="h-10 w-10 rounded-full" src="https://placehold.co/100x100/e2e8f0/4a5568?text=A" alt="Avatar do usuário">
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-900">Ana Beatriz</p>
+                        <a href="#" class="text-xs text-indigo-600 hover:underline">Meu Perfil</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="flex-1 p-6 lg:p-10 overflow-y-auto">
+
+            <!-- Visão: Painel do Aluno -->
+            <div id="aluno-dashboard" class="view">
+                <h1 class="text-3xl font-bold text-gray-900">Central do Explorador</h1>
+                <p class="mt-2 text-lg text-gray-600">Olá, Ana! Continue sua jornada de aprendizado.</p>
+                
+                <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Coluna Principal -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Missão Atual -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                            <h2 class="text-xl font-bold">Sua Missão Atual</h2>
+                            <div class="mt-4 p-4 bg-indigo-50 rounded-lg flex items-center space-x-4">
+                                <div class="bg-indigo-500 text-white p-3 rounded-full">
+                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10m0-2s.657-.343 1.343-.657m3.314 6.314a8 8 0 01-1.343-.657m-11.03-3.314a8 8 0 0111.03-1.343" /></svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-lg text-gray-800">Ciências: Os Segredos da Fotossíntese</h3>
+                                    <p class="text-sm text-gray-600">Complete os 3 passos restantes para ganhar 150 XP!</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Progresso da Missão</span>
+                                    <span class="text-sm font-medium text-indigo-600">40%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 40%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Desafio Diário -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-xl font-bold">Desafio Diário</h2>
+                                <span class="text-sm font-medium bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">Tempo limitado!</span>
+                            </div>
+                             <p class="mt-2 text-gray-600">Acerte 3 perguntas sobre verbos e ganhe <span class="font-bold text-yellow-600">50 XP extras</span>!</p>
+                             <button class="mt-4 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Começar Desafio</button>
+                        </div>
+                    </div>
+
+                    <!-- Coluna Lateral (Gamificação) -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 space-y-6">
+                        <h2 class="text-xl font-bold text-center">Seu Progresso</h2>
+                        <div class="text-center">
+                            <span class="text-5xl font-bold text-indigo-600">Nível 8</span>
+                            <div class="mt-2 w-full bg-gray-200 rounded-full h-4">
+                                <div class="bg-gradient-to-r from-green-400 to-blue-500 h-4 rounded-full flex items-center justify-center text-white text-xs font-bold" style="width: 75%">750/1000 XP</div>
+                            </div>
+                        </div>
+                        <div class="border-t border-gray-200 pt-4 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium">Lumens (moeda)</span>
+                                <div class="flex items-center space-x-2 font-bold text-yellow-500">
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                    <span>1,250</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium">Conquistas</span>
+                                <div class="flex items-center space-x-2 font-bold text-gray-700">
+                                    <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <span>12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visão: Mapa de Missões do Aluno -->
+            <div id="aluno-missoes" class="view">
+                <h1 class="text-3xl font-bold text-gray-900">Mapa de Missões: Matemática</h1>
+                <p class="mt-2 text-lg text-gray-600">Siga a trilha para conquistar novos conhecimentos!</p>
+                <div class="mt-8 relative">
+                    <div class="absolute left-1/2 -ml-0.5 w-1 bg-gray-200 h-full"></div>
+                    <div class="mb-10 flex justify-center">
+                        <div class="relative w-full max-w-sm">
+                            <div class="absolute -left-5 top-5 h-10 w-10 bg-green-500 rounded-full flex items-center justify-center text-white z-10">
+                               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            </div>
+                            <div class="ml-12 p-4 bg-white rounded-lg shadow-md border-l-4 border-green-500">
+                                <h3 class="font-bold text-gray-800">Soma e Subtração</h3>
+                                <p class="text-sm text-gray-500 mt-1">Concluída! Você ganhou 100 XP.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-10 flex justify-center">
+                        <div class="relative w-full max-w-sm">
+                            <div class="absolute -left-5 top-5 h-10 w-10 bg-indigo-600 rounded-full flex items-center justify-center text-white z-10 ring-4 ring-white animate-pulse">
+                               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            </div>
+                            <div class="ml-12 p-4 bg-white rounded-lg shadow-lg border-l-4 border-indigo-600">
+                                <h3 class="font-bold text-gray-900 text-lg">Teorema de Pitágoras</h3>
+                                <p class="text-sm text-gray-600 mt-1">Sua missão atual. Vamos lá!</p>
+                                <button id="start-mission-btn" class="mt-3 text-sm bg-indigo-600 text-white font-semibold py-1 px-3 rounded-md hover:bg-indigo-700">Continuar Missão</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-10 flex justify-center">
+                        <div class="relative w-full max-w-sm">
+                            <div class="absolute -left-5 top-5 h-10 w-10 bg-gray-400 rounded-full flex items-center justify-center text-white z-10">
+                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
+                            </div>
+                            <div class="ml-12 p-4 bg-gray-100 rounded-lg shadow-sm border-l-4 border-gray-400">
+                                <h3 class="font-bold text-gray-500">Funções de 1º Grau</h3>
+                                <p class="text-sm text-gray-500 mt-1">Desbloqueada após Pitágoras.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visão: Tela de uma Missão -->
+            <div id="aluno-missao-detalhe" class="view">
+                 <h1 class="text-3xl font-bold text-gray-900">Missão: Teorema de Pitágoras</h1>
+                 <p class="mt-2 text-lg text-gray-600">Complete todas as etapas para dominar o tópico e ganhar suas recompensas!</p>
+                 <div class="mt-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    <!-- Menu de Etapas -->
+                    <aside class="lg:col-span-1 bg-white p-4 rounded-xl shadow-md border border-gray-200">
+                        <h3 class="font-bold text-lg mb-4">Etapas da Missão</h3>
+                        <nav class="space-y-2">
+                             <a href="#" class="step-item group flex items-center p-3 rounded-md border-l-4 border-transparent hover:bg-indigo-50" data-step="video">
+                                <svg class="h-6 w-6 mr-3 text-gray-400 group-hover:text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                                <span class="text-gray-700 group-hover:text-indigo-600 font-medium">Vídeo Explicativo</span>
+                            </a>
+                             <a href="#" class="step-item group flex items-center p-3 rounded-md border-l-4 border-transparent hover:bg-indigo-50" data-step="quiz">
+                                <svg class="h-6 w-6 mr-3 text-gray-400 group-hover:text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span class="text-gray-700 group-hover:text-indigo-600 font-medium">Quiz Rápido</span>
+                            </a>
+                            <a href="#" class="step-item group flex items-center p-3 rounded-md border-l-4 border-transparent hover:bg-indigo-50" data-step="lab">
+                                <svg class="h-6 w-6 mr-3 text-gray-400 group-hover:text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547a2 2 0 00-.547 1.806l.477 2.387a6 6 0 00.517 3.86l.158.318a6 6 0 00.517 3.86l2.387.477a2 2 0 001.806.547a2 2 0 00.547-1.806l-.477-2.387a6 6 0 00-.517-3.86l-.158-.318a6 6 0 00-.517-3.86l-2.387-.477zM12 18a6 6 0 100-12 6 6 0 000 12z" /></svg>
+                                <span class="text-gray-700 group-hover:text-indigo-600 font-medium">Laboratório Virtual</span>
+                            </a>
+                            <a href="#" class="step-item group flex items-center p-3 rounded-md border-l-4 border-transparent hover:bg-indigo-50" data-step="desafio">
+                                <svg class="h-6 w-6 mr-3 text-gray-400 group-hover:text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
+                                <span class="text-gray-700 group-hover:text-indigo-600 font-medium">Desafio Final</span>
+                            </a>
+                        </nav>
+                    </aside>
+                    <!-- Conteúdo da Etapa -->
+                    <div class="lg:col-span-3 bg-white rounded-xl shadow-md border border-gray-200">
+                        <div id="mission-video" class="mission-content p-6">
+                            <h2 class="text-2xl font-bold mb-4">🎥 O que é o Teorema de Pitágoras?</h2>
+                            <div class="aspect-w-16 aspect-h-9 bg-gray-900 rounded-lg flex items-center justify-center">
+                                <p class="text-white text-lg">Simulação de Player de Vídeo</p>
+                            </div>
+                        </div>
+                         <div id="mission-quiz" class="mission-content p-6">
+                            <h2 class="text-2xl font-bold mb-4">❓ Quiz Rápido</h2>
+                            <div class="space-y-4">
+                                <p class="font-semibold">1. Em um triângulo retângulo, qual o nome do lado oposto ao ângulo reto?</p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center"><input type="radio" name="q1" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"> <span class="ml-2">Cateto</span></label>
+                                    <label class="flex items-center"><input type="radio" name="q1" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"> <span class="ml-2">Hipotenusa</span></label>
+                                    <label class="flex items-center"><input type="radio" name="q1" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"> <span class="ml-2">Vértice</span></label>
+                                </div>
+                                <button class="mt-4 bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg">Verificar Resposta</button>
+                            </div>
+                        </div>
+                        <div id="mission-lab" class="mission-content p-6">
+                             <h2 class="text-2xl font-bold mb-4">🔬 Laboratório Virtual</h2>
+                             <div class="bg-gray-100 rounded-lg p-6 text-center">
+                                 <p class="text-gray-700">Simulação interativa para testar o teorema na prática.</p>
+                                 <p class="text-sm text-gray-500 mt-2">(Aqui entraria uma animação ou canvas interativo)</p>
+                             </div>
+                        </div>
+                        <div id="mission-desafio" class="mission-content p-6">
+                             <h2 class="text-2xl font-bold mb-4">🏆 Desafio Final</h2>
+                             <p class="text-gray-700">Resolva 5 problemas para concluir a missão e ganhar sua recompensa!</p>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Visão: Painel do Professor -->
+            <div id="prof-dashboard" class="view">
+                <h1 class="text-3xl font-bold text-gray-900">Painel do Mestre</h1>
+                <div class="mt-2 flex items-center space-x-4">
+                     <p class="text-lg text-gray-600">Análise da turma:</p>
+                     <select class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                         <option>Turma 8º Ano A - Matemática</option>
+                         <option>Turma 8º Ano B - Matemática</option>
+                         <option>Turma 9º Ano A - Ciências</option>
+                     </select>
+                </div>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-500">Engajamento da Turma</h3>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">89%</p>
+                        <p class="text-sm text-green-600 flex items-center mt-1"><svg class="h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>+5% vs semana passada</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-500">Desempenho Médio</h3>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">76%</p>
+                         <p class="text-sm text-red-600 flex items-center mt-1"><svg class="h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>-2% vs semana passada</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-500">Missões Concluídas</h3>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">124</p>
+                        <p class="text-sm text-gray-500 flex items-center mt-1">Total nesta semana</p>
+                    </div>
+                </div>
+                <div class="mt-8 bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <h2 class="text-xl font-bold">Pontos de Atenção</h2>
+                    <p class="text-gray-600 mt-1">Diagnósticos automáticos para ajudar no seu planejamento.</p>
+                    <div class="mt-4 space-y-4">
+                        <div class="flex items-start p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+                            <div class="flex-shrink-0"><svg class="h-6 w-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
+                            <div class="ml-3">
+                                <h3 class="font-semibold text-red-800">Dificuldade da Turma</h3>
+                                <p class="text-sm text-red-700"><b>18 de 25 alunos (72%)</b> apresentaram dificuldade na missão "Equações de 2º Grau". Sugestão: revisar o conceito de Bhaskara.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg">
+                            <div class="flex-shrink-0"><svg class="h-6 w-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                            <div class="ml-3">
+                                <h3 class="font-semibold text-yellow-800">Alunos Precisando de Atenção</h3>
+                                <p class="text-sm text-yellow-700"><b>Carla Souza</b> e <b>Lucas Martins</b> não completaram nenhuma missão nesta semana. Sugestão: verificar se precisam de ajuda.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Visão: Heatmap do Professor -->
+            <div id="prof-heatmap" class="view">
+                <h1 class="text-3xl font-bold text-gray-900">Análise de Desempenho da Turma</h1>
+                 <p class="mt-2 text-lg text-gray-600">Turma 8º Ano A - Matemática</p>
+                 <div class="mt-8 bg-white p-6 rounded-xl shadow-md border border-gray-200 overflow-x-auto">
+                     <table class="w-full text-sm text-left">
+                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                             <tr>
+                                 <th class="px-6 py-3">Aluno</th>
+                                 <th class="px-2 py-3 text-center">Soma e Subtração</th>
+                                 <th class="px-2 py-3 text-center">Multiplicação</th>
+                                 <th class="px-2 py-3 text-center">Divisão</th>
+                                 <th class="px-2 py-3 text-center">Frações</th>
+                                 <th class="px-2 py-3 text-center">Teorema de Pitágoras</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                            <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Ana Beatriz</td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-green-500 rounded" title="Ótimo"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-green-500 rounded" title="Ótimo"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-yellow-400 rounded" title="Médio"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-yellow-400 rounded" title="Médio"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-gray-200 rounded" title="Não iniciado"></div></td></tr>
+                            <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Bruno Carvalho</td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-green-500 rounded" title="Ótimo"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-yellow-400 rounded" title="Médio"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-red-500 rounded" title="Dificuldade"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-red-500 rounded" title="Dificuldade"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-gray-200 rounded" title="Não iniciado"></div></td></tr>
+                             <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Carla Souza</td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-gray-200 rounded" title="Não iniciado"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-gray-200 rounded" title="Não iniciado"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-gray-200 rounded" title="Não iniciado"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-gray-200 rounded" title="Não iniciado"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-gray-200 rounded" title="Não iniciado"></div></td></tr>
+                             <tr class="bg-white"><td class="px-6 py-4 font-medium text-gray-900">Daniel Martins</td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-green-500 rounded" title="Ótimo"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-green-500 rounded" title="Ótimo"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-green-500 rounded" title="Ótimo"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-green-500 rounded" title="Ótimo"></div></td><td class="p-2 text-center"><div class="w-8 h-8 mx-auto bg-yellow-400 rounded" title="Médio"></div></td></tr>
+                         </tbody>
+                     </table>
+                     <div class="flex justify-end mt-4 space-x-4 text-xs"><div class="flex items-center"><div class="w-4 h-4 bg-green-500 rounded mr-2"></div> Ótimo</div><div class="flex items-center"><div class="w-4 h-4 bg-yellow-400 rounded mr-2"></div> Médio</div><div class="flex items-center"><div class="w-4 h-4 bg-red-500 rounded mr-2"></div> Dificuldade</div><div class="flex items-center"><div class="w-4 h-4 bg-gray-200 rounded mr-2"></div> Não Iniciado</div></div>
+                 </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const views = document.querySelectorAll('.view');
+            const startMissionBtn = document.getElementById('start-mission-btn');
+            const stepItems = document.querySelectorAll('.step-item');
+            const missionContents = document.querySelectorAll('.mission-content');
+
+            function showView(viewId) {
+                views.forEach(view => view.classList.remove('active'));
+                navItems.forEach(item => item.classList.remove('active'));
+
+                const activeView = document.getElementById(viewId);
+                if (activeView) activeView.classList.add('active');
+                
+                const activeNavItem = document.querySelector(`.nav-item[data-view="${viewId}"]`);
+                if (activeNavItem) activeNavItem.classList.add('active');
+            }
+
+            function showStep(stepId) {
+                missionContents.forEach(content => content.classList.remove('active'));
+                stepItems.forEach(item => item.classList.remove('active'));
+
+                const activeContent = document.getElementById(`mission-${stepId}`);
+                if (activeContent) activeContent.classList.add('active');
+
+                const activeStepItem = document.querySelector(`.step-item[data-step="${stepId}"]`);
+                if (activeStepItem) activeStepItem.classList.add('active');
+            }
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const viewId = this.getAttribute('data-view');
+                    showView(viewId);
+                });
+            });
+            
+            if (startMissionBtn) {
+                startMissionBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    showView('aluno-missao-detalhe');
+                    showStep('video'); // Mostra a primeira etapa por padrão
+                });
+            }
+
+            stepItems.forEach(item => {
+                item.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const stepId = this.getAttribute('data-step');
+                    showStep(stepId);
+                });
+            });
+
+            // Mostra a primeira visão por padrão
+            showView('aluno-dashboard');
+        });
+    </script>
+</body>
+</html>
