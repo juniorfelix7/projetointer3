@@ -48,22 +48,22 @@
             </div>
             <nav class="flex-1 px-4 py-4 space-y-2">
                 <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Aluno</h3>
-                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="aluno-dashboard">
+                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="aluno-dashboard" data-user-type="aluno">
                     <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                     Painel Principal
                 </a>
-                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="aluno-missoes">
+                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="aluno-missoes" data-user-type="aluno">
                      <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 16.382V5.618a1 1 0 00-1.447-.894L15 7m-6 13v-3m6 3v-3m0 0V7"/></svg>
                     Mapa de Missões
                 </a>
 
                 <div class="pt-4">
                     <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Professor</h3>
-                    <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="prof-dashboard">
+                    <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="prof-dashboard" data-user-type="professor">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         Painel do Mestre
                     </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="prof-heatmap">
+                    <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg" data-view="prof-heatmap" data-user-type="professor">
                         <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                         Análise da Turma
                     </a>
@@ -71,9 +71,9 @@
             </nav>
             <div class="p-4 border-t mt-auto">
                 <div class="flex items-center">
-                    <img class="h-10 w-10 rounded-full" src="https://placehold.co/100x100/e2e8f0/4a5568?text=A" alt="Avatar do usuário">
+                    <img id="user-avatar" class="h-10 w-10 rounded-full" src="https://placehold.co/100x100/e2e8f0/4a5568?text=A" alt="Avatar do usuário">
                     <div class="ml-3">
-                        <p class="text-sm font-medium text-gray-900">Ana Beatriz</p>
+                        <p id="user-name" class="text-sm font-medium text-gray-900">Ana Beatriz</p>
                         <a href="#" class="text-xs text-indigo-600 hover:underline">Meu Perfil</a>
                     </div>
                 </div>
@@ -268,7 +268,6 @@
                          <option>Turma 8º Ano A - Matemática</option>
                          <option>Turma 8º Ano B - Matemática</option>
                          <option>Turma 9º Ano A - Ciências</option>
-                         <option>Turma 9º Ano B - Ciências</option>
                      </select>
                 </div>
                 <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -347,8 +346,29 @@
             const startMissionBtn = document.getElementById('start-mission-btn');
             const stepItems = document.querySelectorAll('.step-item');
             const missionContents = document.querySelectorAll('.mission-content');
+            const userNameEl = document.getElementById('user-name');
+            const userAvatarEl = document.getElementById('user-avatar');
 
-            function showView(viewId) {
+            const userProfiles = {
+                aluno: {
+                    name: 'Ana Beatriz',
+                    avatar: 'https://placehold.co/100x100/e2e8f0/4a5568?text=A'
+                },
+                professor: {
+                    name: 'Prof. Carlos',
+                    avatar: 'https://placehold.co/100x100/c7d2fe/3730a3?text=C'
+                }
+            };
+
+            function updateUserProfile(userType) {
+                const profile = userProfiles[userType];
+                if (profile) {
+                    userNameEl.textContent = profile.name;
+                    userAvatarEl.src = profile.avatar;
+                }
+            }
+
+            function showView(viewId, userType) {
                 views.forEach(view => view.classList.remove('active'));
                 navItems.forEach(item => item.classList.remove('active'));
 
@@ -357,6 +377,8 @@
                 
                 const activeNavItem = document.querySelector(`.nav-item[data-view="${viewId}"]`);
                 if (activeNavItem) activeNavItem.classList.add('active');
+
+                updateUserProfile(userType);
             }
 
             function showStep(stepId) {
@@ -374,14 +396,15 @@
                 item.addEventListener('click', function(event) {
                     event.preventDefault();
                     const viewId = this.getAttribute('data-view');
-                    showView(viewId);
+                    const userType = this.getAttribute('data-user-type');
+                    showView(viewId, userType);
                 });
             });
             
             if (startMissionBtn) {
                 startMissionBtn.addEventListener('click', function(event) {
                     event.preventDefault();
-                    showView('aluno-missao-detalhe');
+                    showView('aluno-missao-detalhe', 'aluno');
                     showStep('video'); // Mostra a primeira etapa por padrão
                 });
             }
@@ -395,7 +418,7 @@
             });
 
             // Mostra a primeira visão por padrão
-            showView('aluno-dashboard');
+            showView('aluno-dashboard', 'aluno');
         });
     </script>
 </body>
